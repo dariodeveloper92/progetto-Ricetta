@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/ricette")
+@RequestMapping("")
 public class RicettaController {
 
     private final RicettaService ricettaService;
@@ -21,31 +21,31 @@ public class RicettaController {
         this.ricettaService = ricettaService;
     }
 
-    @GetMapping
+    @RequestMapping(value = "/ricette", method = RequestMethod.GET)
     public ResponseEntity<List<Ricetta>> getAllRicette() {
         List<Ricetta> ricette = ricettaService.getAllRicette();
         return new ResponseEntity<>(ricette, HttpStatus.OK);
     }
 
-    @GetMapping("/{id}")
+    @RequestMapping(value = "/ricette", method = RequestMethod.GET, params = {"id"})
     public ResponseEntity<Ricetta> getRicettaById(@PathVariable Long id) {
         Ricetta ricetta = ricettaService.getRicettaById(id);
         return new ResponseEntity<>(ricetta, HttpStatus.OK);
     }
 
-    @GetMapping("/nome/{nome}")
+    @RequestMapping(value = "/nome", method = RequestMethod.GET, params = {"nome"})
     public ResponseEntity<Ricetta> getRicettaByNome(@PathVariable String nome) {
         Ricetta ricetta = ricettaService.getRicettaByNome(nome);
         return new ResponseEntity<>(ricetta, HttpStatus.OK);
     }
 
-    @PostMapping
+    @RequestMapping(value = "/ricette", method = RequestMethod.POST)
     public ResponseEntity<Ricetta> createRicetta(@RequestBody Ricetta ricetta) {
         Ricetta createdRicetta = ricettaService.createRicetta(ricetta);
         return new ResponseEntity<>(createdRicetta, HttpStatus.CREATED);
     }
 
-    @DeleteMapping("/{id}")
+    @RequestMapping(value = "", method = RequestMethod.DELETE, params = {"id"})
     public ResponseEntity<Response> deleteRicettaById(@PathVariable Long id) {
         boolean deleted = ricettaService.deleteRicettaById(id);
         String message;
@@ -63,9 +63,7 @@ public class RicettaController {
         return ResponseEntity.status(status).body(response);
     }
 
-
-
-    @PutMapping("/{id}")
+    @RequestMapping(value = "", method = RequestMethod.PUT, params = {"id"})
     public ResponseEntity<Ricetta> updateRicetta(@PathVariable Long id, @RequestBody Ricetta updatedRicetta) {
         Ricetta ricetta = ricettaService.updateRicetta(id, updatedRicetta);
         return new ResponseEntity<>(ricetta, HttpStatus.OK);
